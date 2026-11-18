@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "НейроГид"
+description = "Русскоязычный каталог нейросетей: поиск и подбор инструментов для создания текста, изображений, музыки, видео и других задач, с краткими описаниями возможностей каждой системы."
+version = "1.0.0"
+id = "artifacts/neuroguide"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25598
+
+[services.development]
+run = "pnpm --filter @workspace/neuroguide run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/neuroguide", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/neuroguide/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25598"
+BASE_PATH = "/"
